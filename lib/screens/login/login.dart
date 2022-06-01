@@ -27,10 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.all(10),
                 child: const Text(
                   'Shagf admin panel',
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30),
+                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 30),
                 )),
             Container(
                 alignment: Alignment.center,
@@ -54,6 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
               child: TextField(
                 obscureText: true,
                 controller: passwordController,
+                onSubmitted: (value) {
+                  loginProvider.login(nameController.text, passwordController.text, context);
+                },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Password',
@@ -77,8 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: ElevatedButton(
                   child: const Text('Login'),
                   onPressed: () {
-                    loginProvider.login(
-                        nameController.text, passwordController.text, context);
+                    loginProvider.login(nameController.text, passwordController.text, context);
                   },
                 )),
           ],

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shagf_console/core/providers/order_provider.dart';
@@ -34,11 +36,57 @@ class _OrdersScreenState extends State<OrdersScreen> {
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              for (var order in orderProvider.orders)
+              //waiting orders
+
+              for (var order in orderProvider.orders.where((element) => element.status == "waiting"))
                 Card(
-                    child: ExpansionTile(
-                  title: Text(order.clientName),
-                )),
+                  color: Colors.red,
+                  child: ExpansionTile(children: [
+                    FlatButton(
+                        onPressed: () {
+                          orderProvider.changeStatus(order.id, "delevered");
+                        },
+                        child: const Text("change status")),
+                    for (var ordereditem in order.items)
+                      Text(
+                        ordereditem.name.toString(),
+                      ),
+                  ], title: Text(order.clientName + " / " + order.status!)),
+                ),
+
+              //in progress
+              for (var order in orderProvider.orders.where((element) => element.status == "inProgress"))
+                Card(
+                  color: Colors.grey,
+                  child: ExpansionTile(children: [
+                    FlatButton(
+                        onPressed: () {
+                          orderProvider.changeStatus(order.id, "delevered");
+                        },
+                        child: const Text("change status")),
+                    for (var ordereditem in order.items)
+                      Text(
+                        ordereditem.name.toString(),
+                      ),
+                  ], title: Text(order.clientName + " / " + order.status!)),
+                ),
+
+              //delivered
+              for (var order in orderProvider.orders.where((element) => element.status == "delivered"))
+                Card(
+                  color: Colors.green,
+                  child: ExpansionTile(children: [
+                    FlatButton(
+                        onPressed: () {
+                          orderProvider.changeStatus(order.id, "delevered");
+                        },
+                        child: const Text("change status")),
+                    for (var ordereditem in order.items)
+                      Text(
+                        ordereditem.name.toString(),
+                      ),
+                  ], title: Text(order.clientName + " / " + order.status!)),
+                ),
             ],
           ),
         ],
