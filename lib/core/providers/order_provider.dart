@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +15,7 @@ class OrdersProvider extends ChangeNotifier {
 
     orders.clear();
     try {
-      firestore.snapshots().listen(
+      firestore.orderBy('time', descending: false).snapshots().listen(
         (event) {
           for (var item in event.docChanges) {
             orders.add(
@@ -60,6 +62,7 @@ class OrdersProvider extends ChangeNotifier {
     await FirebaseFirestore.instance.collection("orders").doc(taxNum.toString()).update(
       {"status": status.toString()},
     );
+    getRealTimeOrders();
     notifyListeners();
   }
 }
