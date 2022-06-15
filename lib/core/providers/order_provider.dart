@@ -1,14 +1,14 @@
 // ignore_for_file: avoid_print
 
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shagf_console/core/models/delivery_model.dart';
 import 'package:shagf_console/core/models/item_model.dart';
 import 'package:shagf_console/core/models/order_model.dart';
 
 class OrdersProvider extends ChangeNotifier {
   final List<Order> orders = [];
+  final List<Delivery> delivery = [];
 
   void getRealTimeOrders() async {
     final firestore = FirebaseFirestore.instance.collection("orders");
@@ -17,25 +17,25 @@ class OrdersProvider extends ChangeNotifier {
     try {
       firestore.orderBy('time', descending: false).snapshots().listen(
         (event) {
-          for (var item in event.docChanges) {
+          for (var order in event.docChanges) {
             orders.add(
               Order(
-                id: int.parse(item.doc.id),
-                status: item.doc["status"].toString(),
-                clientName: item.doc["clientName"].toString(),
-                clientPhone: int.parse(item.doc["clientPhone"].toString()),
-                clientLocation: "area name : " +
-                    item.doc["clientAreaName"].toString() +
-                    "/ Street name :" +
-                    item.doc["clientStName"].toString() +
-                    "/ building number : " +
-                    item.doc["clientBuildingNum"].toString() +
-                    "/ floor number : " +
-                    item.doc["clientFloorNum"].toString(),
-                clientSparePhone: int.parse(item.doc["clientSecPhone"].toString()),
-                clientLocationGoogleMap: item.doc["googleMapsUrl"].toString(),
+                id: int.parse(order.doc.id),
+                status: order.doc["status"].toString(),
+                clientName: order.doc["clientName"].toString(),
+                clientPhone: int.parse(order.doc["clientPhone"].toString()),
+                clientLocation: "\n area name : " +
+                    order.doc["clientAreaName"].toString() +
+                    "\n Street name :" +
+                    order.doc["clientStName"].toString() +
+                    "\n building number : " +
+                    order.doc["clientBuildingNum"].toString() +
+                    "\n floor number : " +
+                    order.doc["clientFloorNum"].toString(),
+                clientSparePhone: int.parse(order.doc["clientSecPhone"].toString()),
+                clientLocationGoogleMap: order.doc["googleMapsUrl"].toString(),
                 items: [
-                  for (var item in item.doc["order"])
+                  for (var item in order.doc["order"])
                     Item(
                       name: item["name"],
                       price: double.parse(item["price"].toString()),
@@ -45,10 +45,9 @@ class OrdersProvider extends ChangeNotifier {
                       total: double.parse(item["total"].toString()),
                     ),
                 ],
-                total: double.parse(item.doc["total"].toString()),
+                total: double.parse(order.doc["total"].toString()),
               ),
             );
-            print("done!");
             notifyListeners();
           }
         },
@@ -56,6 +55,29 @@ class OrdersProvider extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+  }
+
+  void getDeliveryMen() async {
+    final firestore = await FirebaseFirestore.instance.collection("delivery").get();
+
+    delivery.clear();
+    try {
+      for (var deliveryMan in firestore.docs) {
+        delivery.add(
+          Delivery(
+            name: deliveryMan["name"],
+            phone: deliveryMan["phone"],
+          ),
+        );
+        notifyListeners();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void searchOrder(id) {
+    orders.where((element) => element.id == id);
   }
 
   void changeStatus(taxNum, status) async {

@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shagf_console/core/providers/order_provider.dart';
+import 'package:shagf_console/core/widgets/order_card.dart';
+import 'package:shagf_console/core/widgets/title.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     setState(() {
       final orderProvider = context.read<OrdersProvider>();
       orderProvider.getRealTimeOrders();
+      orderProvider.getDeliveryMen();
     });
     super.initState();
   }
@@ -26,94 +30,39 @@ class _OrdersScreenState extends State<OrdersScreen> {
     final orderProvider = context.watch<OrdersProvider>();
 
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: const Text(
+          "Order",
+          style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                "Order",
-                style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //waiting orders
+                  const TitleBar(title: 'Waiting'),
+                  for (var order in orderProvider.orders.where((element) => element.status == "waiting")) Ordercard(order: order, ordersProvider: orderProvider),
 
-                  for (var order in orderProvider.orders.where((element) => element.status == "waiting"))
-                    Card(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      child: ExpansionTile(children: [
-                        ExpansionTile(
-                          children: [
-                            for (var ordereditem in order.items)
-                              ListTile(
-                                subtitle: Text(
-                                  "x" + ordereditem.count.toString(),
-                                ),
-                                title: Text(
-                                  ordereditem.name.toString(),
-                                ),
-                              ),
-                            Text(
-                              "client name : ",
-                              style: TextStyle(),
-                            )
-                          ],
-                          title: const Text("Items"),
-                        ),
-                      ], title: Text("#" + order.id.toString() + " / " + order.status!)),
-                    ),
+                  //in progress
+                  const TitleBar(title: 'inProgress'),
+                  for (var order in orderProvider.orders.where((element) => element.status == "inProgress")) Ordercard(order: order, ordersProvider: orderProvider),
 
-                  // //in progress
-                  // for (var order in orderProvider.orders.where((element) => element.status == "inProgress"))
-                  //   Card(
-                  //     color: Colors.grey,
-                  //     child: ExpansionTile(children: [
-                  //       FlatButton(
-                  //           onPressed: () {
-                  //             orderProvider.changeStatus(order.id, "delevered");
-                  //           },
-                  //           child: const Text("change status")),
-                  //       for (var ordereditem in order.items)
-                  //         Text(
-                  //           ordereditem.name.toString(),
-                  //         ),
-                  //     ], title: Text(order.clientName + " / " + order.status!)),
-                  //   ),
-                  const Divider(),
-                  const Text(
-                    "delivered",
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  const Divider(),
+                  //on the way
+                  const TitleBar(title: 'on the way'),
+                  for (var order in orderProvider.orders.where((element) => element.status == "onTheWay")) Ordercard(order: order, ordersProvider: orderProvider),
+
                   //delivered
-                  for (var order in orderProvider.orders.where((element) => element.status == "delivered"))
-                    Card(
-                      color: Colors.green,
-                      child: ExpansionTile(
-                        children: [
-                          FlatButton(
-                            onPressed: () {
-                              orderProvider.changeStatus(order.id, "delivered");
-                            },
-                            child: const Text(
-                              "change status",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          for (var ordereditem in order.items)
-                            Text(
-                              ordereditem.name.toString(),
-                            ),
-                        ],
-                        title: Text(
-                          order.clientName + " / " + order.status!,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
+                  const TitleBar(title: 'Delivered'),
+                  for (var order in orderProvider.orders.where((element) => element.status == "delivered")) Ordercard(order: order, ordersProvider: orderProvider),
                 ],
               ),
             ],

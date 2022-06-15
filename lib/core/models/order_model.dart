@@ -2,6 +2,7 @@ import 'package:shagf_console/core/models/item_model.dart';
 
 class Order {
   String clientName;
+  String? note;
   int clientPhone;
   int? clientSparePhone;
   String clientLocation;
@@ -18,6 +19,7 @@ class Order {
       required this.clientLocation,
       required this.status,
       this.clientSparePhone,
+      this.note,
       required this.clientLocationGoogleMap,
       required this.items,
       required this.total});
