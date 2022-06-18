@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shagf_console/core/models/item_model.dart';
 
@@ -12,18 +13,18 @@ class ProductsProvider extends ChangeNotifier {
   void getItemsFromDB() async {
     final data = await firestore.collection("items").get();
 
-    products = [];
+    products.clear();
 
     for (var item in data.docs) {
       products.add(
         Item(
           name: item["name"],
-          price: item["price"],
+          price: double.parse(item["price"].toString()),
           description: item["description"],
-          id: item.id,
+          id: item["id"].toString(),
           imgURL: item["img"],
           category: item["category"],
-          count: item["count"],
+          count: int.parse(item["count"].toString()),
         ),
       );
       notifyListeners();
@@ -49,6 +50,30 @@ class ProductsProvider extends ChangeNotifier {
       backgroundColor: Colors.green,
       content: Text(
         "Updated Sucsessfully",
+        style: TextStyle(color: Colors.white),
+      ),
+    ));
+
+    notifyListeners();
+  }
+
+  void addProduct(name, price, id, count, imgURL, des, category, context) async {
+    final data = firestore.collection("items");
+
+    await data.add({
+      "id": id,
+      "category": category,
+      "count": count,
+      "description": des,
+      "img": imgURL,
+      "name": name,
+      "price": price,
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      backgroundColor: Colors.green,
+      content: Text(
+        "Added Sucsessfully",
         style: TextStyle(color: Colors.white),
       ),
     ));

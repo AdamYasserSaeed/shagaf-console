@@ -53,49 +53,6 @@ class _DeliveryCardState extends State<DeliveryCard> {
                   style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ),
-              Center(
-                child: SizedBox(
-                  width: 150,
-                  child: RaisedButton(
-                    onPressed: () async {
-                      setState(() {
-                        launchUrl(
-                          Uri.parse(
-                            "https://web.whatsapp.com/send/?phone=%2B962${widget.delivery.phone}&text="
-                                    "%0aاسم العميل : " +
-                                widget.order.clientName.toString() +
-                                "%0aرقم هاتف : " +
-                                widget.order.clientPhone.toString() +
-                                "%0aرقم احتياطي : " +
-                                widget.order.clientSparePhone.toString() +
-                                "%0aموقع العميل : " +
-                                widget.order.clientLocation +
-                                "%0aرابط موقع العميل : " +
-                                widget.order.clientLocationGoogleMap.toString() +
-                                "%0aملخص الطلب : " +
-                                order! +
-                                "%0aالمجموع الكلي : " +
-                                widget.order.total.toString() +
-                                "%0aالمعرف : " +
-                                widget.order.id.toString(),
-                          ),
-                        );
-                      });
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    color: Colors.yellow,
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        "forward order",
-                        style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               const SizedBox(height: 15),
             ],
           ),

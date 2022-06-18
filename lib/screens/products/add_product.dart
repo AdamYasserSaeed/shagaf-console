@@ -1,28 +1,37 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shagf_console/core/models/item_model.dart';
 import 'package:shagf_console/core/providers/products_provider.dart';
 import 'package:shagf_console/core/widgets/edit_button.dart';
 
-class EditProduct extends StatefulWidget {
-  final Item item;
-
-  const EditProduct({Key? key, required this.item}) : super(key: key);
+class AddProduct extends StatefulWidget {
+  const AddProduct({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<EditProduct> createState() => _EditProductState();
+  State<AddProduct> createState() => _AddProductState();
 }
 
-class _EditProductState extends State<EditProduct> {
+class _AddProductState extends State<AddProduct> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     final productsProvider = context.watch<ProductsProvider>();
+    final data = FirebaseFirestore.instance.collection("items");
 
-    final product = widget.item;
+    TextEditingController? nameC = TextEditingController();
+    TextEditingController? priceC = TextEditingController();
+    TextEditingController? categoryC = TextEditingController();
+    TextEditingController? minCountC = TextEditingController();
+    TextEditingController? desC = TextEditingController();
+    TextEditingController? imgURLC = TextEditingController();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -55,19 +64,15 @@ class _EditProductState extends State<EditProduct> {
       ),
       body: Column(
         children: [
-          Text(
-            "Edit " + widget.item.name,
-            style: const TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+          const Text(
+            "Add New Product",
+            style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
           ),
           Padding(
             padding: const EdgeInsets.all(14.0),
             child: TextField(
-              controller: TextEditingController(text: widget.item.name),
-              onSubmitted: (val) {
-                setState(() {
-                  product.name = val;
-                });
-              },
+              textInputAction: TextInputAction.next,
+              controller: nameC,
               decoration: const InputDecoration(
                 labelText: "Name",
                 labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
@@ -77,12 +82,8 @@ class _EditProductState extends State<EditProduct> {
           Padding(
             padding: const EdgeInsets.all(14.0),
             child: TextField(
-              controller: TextEditingController(text: product.price.toString()),
-              onSubmitted: (val) {
-                setState(() {
-                  product.price = double.parse(val);
-                });
-              },
+              textInputAction: TextInputAction.next,
+              controller: priceC,
               decoration: const InputDecoration(
                 labelText: "Price",
                 labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
@@ -92,12 +93,8 @@ class _EditProductState extends State<EditProduct> {
           Padding(
             padding: const EdgeInsets.all(14.0),
             child: TextField(
-              controller: TextEditingController(text: product.category),
-              onSubmitted: (val) {
-                setState(() {
-                  product.category = val;
-                });
-              },
+              textInputAction: TextInputAction.next,
+              controller: categoryC,
               decoration: const InputDecoration(
                 labelText: "category",
                 labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
@@ -107,12 +104,8 @@ class _EditProductState extends State<EditProduct> {
           Padding(
             padding: const EdgeInsets.all(14.0),
             child: TextField(
-              controller: TextEditingController(text: product.count.toString()),
-              onSubmitted: (val) {
-                setState(() {
-                  product.count = int.parse(val);
-                });
-              },
+              textInputAction: TextInputAction.next,
+              controller: minCountC,
               decoration: const InputDecoration(
                 labelText: "min count",
                 labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
@@ -122,12 +115,8 @@ class _EditProductState extends State<EditProduct> {
           Padding(
             padding: const EdgeInsets.all(14.0),
             child: TextField(
-              controller: TextEditingController(text: product.description),
-              onSubmitted: (val) {
-                setState(() {
-                  product.description = val;
-                });
-              },
+              textInputAction: TextInputAction.next,
+              controller: desC,
               decoration: const InputDecoration(
                 labelText: "description",
                 labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
@@ -137,12 +126,8 @@ class _EditProductState extends State<EditProduct> {
           Padding(
             padding: const EdgeInsets.all(14.0),
             child: TextField(
-              controller: TextEditingController(text: product.imgURL),
-              onSubmitted: (val) {
-                setState(() {
-                  product.imgURL = val;
-                });
-              },
+              textInputAction: TextInputAction.done,
+              controller: imgURLC,
               decoration: const InputDecoration(
                 labelText: "img URL",
                 labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
@@ -153,30 +138,36 @@ class _EditProductState extends State<EditProduct> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               EditButton(
-                name: "Delete",
+                name: "Cancel",
                 bgColor: Colors.red,
                 txtColor: Colors.white,
                 onPress: () {
-                  productsProvider.deleteProduct(product, context);
                   Navigator.pop(context);
                 },
               ),
               EditButton(
-                name: "Cancel",
-                bgColor: Colors.blue,
-                txtColor: Colors.white,
-                onPress: () {
-                  Navigator.pop(context);
-                },
-              ),
-              EditButton(
-                name: "Save",
+                name: "Add",
                 bgColor: Colors.green,
                 txtColor: Colors.white,
-                onPress: () {
-                  productsProvider.editProduct(product, context);
+                onPress: () async {
+                  await data.add({
+                    "id": Random().nextInt(1000),
+                    "category": categoryC.text,
+                    "count": minCountC.text,
+                    "description": desC.text,
+                    "img": imgURLC.text,
+                    "name": nameC.text,
+                    "price": priceC.text,
+                  });
+                  setState(() {});
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text(
+                      "Added Sucsessfully",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ));
                   Navigator.pop(context);
-                  
                 },
               ),
             ],

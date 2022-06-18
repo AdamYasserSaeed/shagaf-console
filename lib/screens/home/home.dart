@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shagf_console/screens/orders/order_screen.dart';
-import 'package:shagf_console/screens/products/products.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -67,42 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: GridView(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                elevation: 6,
-                shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                child: GestureDetector(
-                  child: Container(
-                    height: 250,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 2),
-                      color: Colors.white38,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "Tables",
-                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 70,
-                          width: 70,
-                          child: Image.network("https://cdn-icons-png.flaticon.com/512/3003/3003998.png"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(

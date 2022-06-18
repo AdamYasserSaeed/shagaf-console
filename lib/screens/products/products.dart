@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shagf_console/core/providers/products_provider.dart';
+import 'package:shagf_console/screens/products/add_product.dart';
 import 'package:shagf_console/screens/products/edit_product.dart';
 
 class ProductsScreen extends StatefulWidget {
@@ -12,7 +13,6 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   void initState() {
     super.initState();
@@ -78,17 +78,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            _scaffoldKey.currentState?.openDrawer();
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddProduct()));
           });
         },
-        child: const Icon(Icons.menu),
+        child: const Icon(Icons.add),
       ),
       body: Column(
         children: [
           const Text(
             "Products",
-            style: TextStyle(
-                color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
           ),
           Expanded(
             child: Center(
@@ -98,8 +97,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   children: [
                     for (var item in productsProvider.products)
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                         child: Card(
                           elevation: 6,
                           child: Column(
@@ -107,8 +105,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               SizedBox(
                                 height: 300,
                                 child: Image.network(
-                                  item.imgURL ??
-                                      "https://frazerpromo.com/thumbnail_Images/no_image.png",
+                                  item.imgURL ?? "https://frazerpromo.com/thumbnail_Images/no_image.png",
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -116,35 +113,23 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "name : " + item.name,
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                  style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("price : " + item.price.toString(),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
+                                child: Text("price : " + item.price.toString(), style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("category : " + item.category!,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
+                                child: Text("category : " + item.category!, style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
                               ),
                               IconButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          EditProduct(item: item),
+                                      builder: (context) => EditProduct(item: item),
                                     ),
                                   );
                                 },
@@ -162,5 +147,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+
+    super.dispose();
   }
 }
