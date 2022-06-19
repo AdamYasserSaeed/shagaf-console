@@ -19,21 +19,37 @@ class OrdersProvider extends ChangeNotifier {
         (event) {
           for (var order in event.docChanges) {
             orders.add(
+              // Order(
+              //   id: int.parse(order.doc.id),
+              //   status: order.doc["status"].toString(),
+              //   clientName: order.doc["clientName"].toString(),
+              //   clientPhone: int.parse(order.doc["clientPhone"].toString()),
+              //   clientLocation: "\n area name : " +
+              //       order.doc["clientAreaName"].toString() +
+              //       "\n Street name :" +
+              //       order.doc["clientStName"].toString() +
+              //       "\n building number : " +
+              //       order.doc["clientBuildingNum"].toString() +
+              //       "\n floor number : " +
+              //       order.doc["clientFloorNum"].toString(),
+              //   clientSparePhone: int.parse(order.doc["clientSecPhone"].toString()),
+              //   clientLocationGoogleMap: order.doc["googleMapsUrl"].toString(),
+              //   items: [
+              //     for (var item in order.doc["order"])
+              //       Item(
+              //         name: item["name"],
+              //         price: double.parse(item["price"].toString()),
+              //         id: item["id"].toString(),
+              //         category: item["category"],
+              //         count: int.parse(item["quantity"].toString()),
+              //         total: double.parse(item["total"].toString()),
+              //       ),
+              //   ],
+              //   total: double.parse(order.doc["total"].toString()),
+              // ),
               Order(
                 id: int.parse(order.doc.id),
-                status: order.doc["status"].toString(),
-                clientName: order.doc["clientName"].toString(),
-                clientPhone: int.parse(order.doc["clientPhone"].toString()),
-                clientLocation: "\n area name : " +
-                    order.doc["clientAreaName"].toString() +
-                    "\n Street name :" +
-                    order.doc["clientStName"].toString() +
-                    "\n building number : " +
-                    order.doc["clientBuildingNum"].toString() +
-                    "\n floor number : " +
-                    order.doc["clientFloorNum"].toString(),
-                clientSparePhone: int.parse(order.doc["clientSecPhone"].toString()),
-                clientLocationGoogleMap: order.doc["googleMapsUrl"].toString(),
+                tableNum: order.doc["tableNumber"],
                 items: [
                   for (var item in order.doc["order"])
                     Item(

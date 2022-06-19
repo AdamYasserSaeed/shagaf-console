@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 class EditButton extends StatelessWidget {
@@ -6,9 +8,7 @@ class EditButton extends StatelessWidget {
   final Color? bgColor;
   final Color? txtColor;
 
-  const EditButton(
-      {Key? key, this.onPress, this.name, this.bgColor, this.txtColor})
-      : super(key: key);
+  const EditButton({Key? key, this.onPress, this.name, this.bgColor, this.txtColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,7 @@ class EditButton extends StatelessWidget {
         color: bgColor ?? Colors.white,
         child: Text(
           name ?? 'no text',
-          style: TextStyle(
-              color: txtColor ?? Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold),
+          style: TextStyle(color: txtColor ?? Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
     );
