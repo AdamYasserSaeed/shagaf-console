@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shagf_console/core/models/item_model.dart';
 
 class Order {
   String? note;
-  String? time;
+  Timestamp? time;
   List<Item> items;
   double total;
-  int? id;
+  String? id;
   int tableNum;
   // String clientName;
   // String? note;
@@ -15,13 +16,14 @@ class Order {
   // String clientLocationGoogleMap;
   // List<Item> items;
   // double total;
-  // String? status;
+  String? status;
   // int? id;
 
   Order({
     required this.id,
     this.note,
     this.time,
+    this.status,
     required this.items,
     required this.total,
     required this.tableNum,

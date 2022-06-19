@@ -31,11 +31,19 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                orderProvider.getRealTimeOrders();
+              },
+              icon: const Icon(Icons.refresh))
+        ],
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
           "Order",
-          style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
         ),
       ),
       body: SizedBox(
@@ -44,13 +52,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //waiting orders
-                  for (var order in orderProvider.orders) Ordercard(order: order, ordersProvider: orderProvider),
-                ],
-              ),
+              //waiting orders
+              for (var order in orderProvider.orders
+                  .where((element) => element.status == "waiting"))
+                Ordercard(order: order, ordersProvider: orderProvider),
             ],
           ),
         ),

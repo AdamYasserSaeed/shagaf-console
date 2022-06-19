@@ -5,6 +5,9 @@ import 'package:shagf_console/core/providers/login_provider.dart';
 import 'package:shagf_console/core/providers/order_provider.dart';
 import 'package:shagf_console/core/providers/products_provider.dart';
 import 'package:shagf_console/screens/home/admin_home.dart';
+import 'package:shagf_console/screens/login/login.dart';
+import 'package:shagf_console/screens/products/add_product.dart';
+import 'package:shagf_console/screens/products/products.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,6 +59,6 @@ class HomeBody extends StatefulWidget {
 class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
-    return const AdminHomeScreen();
+    return const ProductsScreen();
   }
 }
