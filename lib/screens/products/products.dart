@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shagf_console/core/providers/products_provider.dart';
@@ -29,25 +31,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
-      drawer: SizedBox(
-        width: 200,
-        child: Drawer(
-          child: ListView(
-            children: const [
-              SizedBox(
-                height: 200,
-                child: Card(
-                  color: Colors.amberAccent,
-                ),
-              ),
-              ListTile(title: Text("Home")),
-              ListTile(title: Text("Products")),
-              ListTile(title: Text("Tables")),
-              ListTile(title: Text("Sign out")),
-            ],
-          ),
-        ),
-      ),
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -78,7 +61,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddProduct()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const AddProduct()));
           });
         },
         child: const Icon(Icons.add),
@@ -87,49 +71,90 @@ class _ProductsScreenState extends State<ProductsScreen> {
         children: [
           const Text(
             "Products",
-            style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
           ),
           Expanded(
             child: Center(
               child: SingleChildScrollView(
-                child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
+                child: Column(
                   children: [
                     for (var item in productsProvider.products)
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
                         child: Card(
                           elevation: 6,
                           child: Column(
                             children: [
                               SizedBox(
                                 height: 300,
-                                child: Image.network(
-                                  item.imgURL ?? "https://frazerpromo.com/thumbnail_Images/no_image.png",
-                                  fit: BoxFit.cover,
-                                ),
+                                // child: FutureBuilder(
+                                //   future: productsProvider.getImage(
+                                //       context, item.imgURL),
+                                //   builder: (context, snapshot) {
+                                //     if (snapshot.connectionState ==
+                                //         ConnectionState.done) {
+                                //       return SizedBox(
+                                //         height: 300,
+                                //         child: Image.memory(
+                                //           snapshot.data as Uint8List,
+                                //         ),
+                                //       );
+                                //     }
+
+                                //     if (snapshot.connectionState ==
+                                //         ConnectionState.waiting) {
+                                //       return const SizedBox(
+                                //         height: 300,
+                                //         child: CircularProgressIndicator(),
+                                //       );
+                                //     }
+
+                                //     return Container();
+                                //   },
+                                // ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  productsProvider.getImage(
+                                      context, item.imgURL);
+                                },
+                                child: Text("hi"),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "name : " + item.name,
-                                  style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("price : " + item.price.toString(), style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
+                                child: Text("price : " + item.price.toString(),
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("category : " + item.category!, style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
+                                child: Text("category : " + item.category!,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
                               ),
                               IconButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => EditProduct(item: item),
+                                      builder: (context) =>
+                                          EditProduct(item: item),
                                     ),
                                   );
                                 },

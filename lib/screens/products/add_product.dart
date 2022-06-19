@@ -66,7 +66,8 @@ class _AddProductState extends State<AddProduct> {
         children: [
           const Text(
             "Add New Product",
-            style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
           ),
           Padding(
             padding: const EdgeInsets.all(14.0),
@@ -75,7 +76,10 @@ class _AddProductState extends State<AddProduct> {
               controller: nameC,
               decoration: const InputDecoration(
                 labelText: "Name",
-                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
               ),
             ),
           ),
@@ -86,7 +90,10 @@ class _AddProductState extends State<AddProduct> {
               controller: priceC,
               decoration: const InputDecoration(
                 labelText: "Price",
-                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
               ),
             ),
           ),
@@ -97,18 +104,10 @@ class _AddProductState extends State<AddProduct> {
               controller: categoryC,
               decoration: const InputDecoration(
                 labelText: "category",
-                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: TextField(
-              textInputAction: TextInputAction.next,
-              controller: minCountC,
-              decoration: const InputDecoration(
-                labelText: "min count",
-                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
               ),
             ),
           ),
@@ -119,7 +118,10 @@ class _AddProductState extends State<AddProduct> {
               controller: desC,
               decoration: const InputDecoration(
                 labelText: "description",
-                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
               ),
             ),
           ),
@@ -128,9 +130,17 @@ class _AddProductState extends State<AddProduct> {
             child: TextField(
               textInputAction: TextInputAction.done,
               controller: imgURLC,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                icon: IconButton(
+                    onPressed: () {
+                      productsProvider.uploadeImage(context);
+                    },
+                    icon: const Icon(Icons.file_upload)),
                 labelText: "img URL",
-                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                labelStyle: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
               ),
             ),
           ),
@@ -150,24 +160,8 @@ class _AddProductState extends State<AddProduct> {
                 bgColor: Colors.green,
                 txtColor: Colors.white,
                 onPress: () async {
-                  await data.add({
-                    "id": Random().nextInt(1000),
-                    "category": categoryC.text,
-                    "count": minCountC.text,
-                    "description": desC.text,
-                    "img": imgURLC.text,
-                    "name": nameC.text,
-                    "price": priceC.text,
-                  });
-                  setState(() {});
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    backgroundColor: Colors.green,
-                    content: Text(
-                      "Added Sucsessfully",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ));
-                  Navigator.pop(context);
+                  productsProvider.addProduct(nameC.text, priceC.text,
+                      desC.text, categoryC.text, context);
                 },
               ),
             ],

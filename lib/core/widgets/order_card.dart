@@ -3,13 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:shagf_console/core/models/order_model.dart';
 import 'package:shagf_console/core/providers/order_provider.dart';
-import 'package:shagf_console/core/widgets/delivery.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Ordercard extends StatefulWidget {
   final Order order;
   final OrdersProvider ordersProvider;
-  const Ordercard({Key? key, required this.order, required this.ordersProvider}) : super(key: key);
+  const Ordercard({Key? key, required this.order, required this.ordersProvider})
+      : super(key: key);
 
   @override
   State<Ordercard> createState() => _OrdercardState();
@@ -28,25 +27,46 @@ class _OrdercardState extends State<Ordercard> {
               ListTile(
                 title: Text(
                   "table number : " + widget.order.tableNum.toString(),
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
                 ),
               ),
               ListTile(
                 title: Text(
-                  "time : " + widget.order.time!,
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                  "time : " +
+                      widget.order.time!.toDate().minute.toString() +
+                      ":" +
+                      widget.order.time!.toDate().hour.toString() +
+                      " - " +
+                      widget.order.time!.toDate().day.toString() +
+                      "/" +
+                      widget.order.time!.toDate().month.toString() +
+                      "/" +
+                      widget.order.time!.toDate().year.toString(),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
                 ),
               ),
               ListTile(
                 title: Text(
                   "note : " + widget.order.note!,
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
                 ),
               ),
               ExpansionTile(
                 children: [
                   for (var ordereditem in widget.order.items)
                     ListTile(
+                      trailing: Text(
+                        "price for one pice : " + ordereditem.price.toString(),
+                      ),
                       subtitle: Text(
                         "x" + ordereditem.count.toString(),
                       ),
@@ -58,23 +78,23 @@ class _OrdercardState extends State<Ordercard> {
                 ],
                 title: const Text(
                   "Items",
-                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
                 ),
               ),
               ListTile(
                 title: Text(
                   "total : " + widget.order.total.toString(),
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
                 ),
               ),
               const SizedBox(
                 height: 30,
-              ),
-              ListTile(
-                title: Text(
-                  "total : " + widget.order.total.toString(),
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
-                ),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -85,7 +105,8 @@ class _OrdercardState extends State<Ordercard> {
                     child: RaisedButton(
                       onPressed: () {
                         setState(() {
-                          widget.ordersProvider.changeStatus(widget.order.id, "inProgress");
+                          widget.ordersProvider
+                              .changeStatus(widget.order.id, "rejected");
                         });
                       },
                       shape: RoundedRectangleBorder(
@@ -95,29 +116,11 @@ class _OrdercardState extends State<Ordercard> {
                       child: const Padding(
                         padding: EdgeInsets.all(12.0),
                         child: Text(
-                          "accept",
-                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 150,
-                    child: RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          widget.ordersProvider.changeStatus(widget.order.id, "reject");
-                        });
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      color: Colors.red,
-                      child: const Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Text(
-                          "reject",
-                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                          "check order",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
