@@ -71,19 +71,14 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Card(
                 elevation: 6,
-                shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: const BorderSide(color: Colors.black, width: 2)),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductsScreen()));
                   },
-                  child: Container(
+                  child: SizedBox(
                     height: 250,
                     width: 200,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 2),
-                      color: Colors.white38,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,19 +105,14 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Card(
                 elevation: 6,
-                shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: const BorderSide(color: Colors.black, width: 2)),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const OrdersScreen()));
                   },
-                  child: Container(
+                  child: SizedBox(
                     height: 250,
                     width: 200,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 2),
-                      color: Colors.white38,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

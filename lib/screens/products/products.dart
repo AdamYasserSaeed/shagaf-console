@@ -61,8 +61,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const AddProduct()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddProduct()));
           });
         },
         child: const Icon(Icons.add),
@@ -71,8 +70,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
         children: [
           const Text(
             "Products",
-            style: TextStyle(
-                color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
           ),
           Expanded(
             child: Center(
@@ -81,80 +79,65 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   children: [
                     for (var item in productsProvider.products)
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                         child: Card(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           elevation: 6,
                           child: Column(
                             children: [
                               SizedBox(
                                 height: 300,
-                                // child: FutureBuilder(
-                                //   future: productsProvider.getImage(
-                                //       context, item.imgURL),
-                                //   builder: (context, snapshot) {
-                                //     if (snapshot.connectionState ==
-                                //         ConnectionState.done) {
-                                //       return SizedBox(
-                                //         height: 300,
-                                //         child: Image.memory(
-                                //           snapshot.data as Uint8List,
-                                //         ),
-                                //       );
-                                //     }
+                                width: 400,
+                                child: FutureBuilder<Uri>(
+                                  future: productsProvider.downloadURL(context, item.imgURL!),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.done) {
+                                      return SizedBox(
+                                        height: 300,
+                                        width: 200,
+                                        child: Card(
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                          child: Image.network(
+                                            snapshot.data.toString(),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      );
+                                    }
 
-                                //     if (snapshot.connectionState ==
-                                //         ConnectionState.waiting) {
-                                //       return const SizedBox(
-                                //         height: 300,
-                                //         child: CircularProgressIndicator(),
-                                //       );
-                                //     }
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return const SizedBox(
+                                        height: 300,
+                                        child: Center(child: CircularProgressIndicator()),
+                                      );
+                                    }
 
-                                //     return Container();
-                                //   },
-                                // ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  productsProvider.getImage(
-                                      context, item.imgURL);
-                                },
-                                child: Text("hi"),
+                                    return Container();
+                                  },
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "name : " + item.name,
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                  style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("price : " + item.price.toString(),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
+                                child: Text("price : " + item.price.toString(), style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("category : " + item.category!,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
+                                child: Text("category : " + item.category!, style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
                               ),
                               IconButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          EditProduct(item: item),
+                                      builder: (context) => EditProduct(item: item),
                                     ),
                                   );
                                 },

@@ -57,8 +57,7 @@ class _EditProductState extends State<EditProduct> {
         children: [
           Text(
             "Edit " + widget.item.name,
-            style: const TextStyle(
-                color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+            style: const TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
           ),
           Padding(
             padding: const EdgeInsets.all(14.0),
@@ -71,10 +70,7 @@ class _EditProductState extends State<EditProduct> {
               },
               decoration: const InputDecoration(
                 labelText: "Name",
-                labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
           ),
@@ -89,10 +85,7 @@ class _EditProductState extends State<EditProduct> {
               },
               decoration: const InputDecoration(
                 labelText: "Price",
-                labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
           ),
@@ -107,10 +100,7 @@ class _EditProductState extends State<EditProduct> {
               },
               decoration: const InputDecoration(
                 labelText: "category",
-                labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
           ),
@@ -125,10 +115,7 @@ class _EditProductState extends State<EditProduct> {
               },
               decoration: const InputDecoration(
                 labelText: "description",
-                labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
           ),
@@ -141,12 +128,14 @@ class _EditProductState extends State<EditProduct> {
                   product.imgURL = val;
                 });
               },
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: "img URL",
-                labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                icon: IconButton(
+                    onPressed: () {
+                      productsProvider.uploadeImage(context);
+                    },
+                    icon: const Icon(Icons.file_upload)),
+                labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
           ),

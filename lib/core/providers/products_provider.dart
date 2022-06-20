@@ -1,11 +1,10 @@
 // ignore_for_file: deprecated_member_use, unnecessary_null_comparison, unused_local_variable, avoid_print
 
-import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as fb;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shagf_console/core/models/item_model.dart';
@@ -51,7 +50,7 @@ class ProductsProvider extends ChangeNotifier {
       "count": 1,
       "id": selectedItem.id,
       "description": selectedItem.description,
-      "img": selectedItem.imgURL,
+      "img": imageName,
       "name": selectedItem.name,
       "price": selectedItem.price,
       "total": 0,
@@ -65,13 +64,15 @@ class ProductsProvider extends ChangeNotifier {
       ),
     ));
 
+    getItemsFromDB();
+
     notifyListeners();
   }
 
   void addProduct(name, price, des, category, context) async {
     final data = firestore.collection("items");
 
-    await FirebaseStorage.instance.ref(imageName).putData(rawImage!);
+    await fb.FirebaseStorage.instance.ref(imageName).putData(rawImage!);
 
     await data.add({
       "category": category,
@@ -82,10 +83,18 @@ class ProductsProvider extends ChangeNotifier {
       "price": price,
     });
 
-    final doc = await data.where("name", isEqualTo: name.text).get();
+    final doc = await data.where("name", isEqualTo: name).get();
 
     for (var item in doc.docs) {
-      data.doc(item.id).update({"id": item.id});
+      data.doc(item.id).update({"id": doc.docs.length});
+    }
+
+    while (doc.docs.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "wait until finish , auto navigate",
+        ),
+      ));
     }
 
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -96,14 +105,23 @@ class ProductsProvider extends ChangeNotifier {
       ),
     ));
 
+    getItemsFromDB();
+
     notifyListeners();
   }
 
-  void getImage(context, imageName) async {
-    Uint8List? imageBytes;
-    // final ref = await FirebaseStorage.instance.ref(imageName).getData();
+  Future<Uri> downloadURL(context, String imgName) async {
+    final String url = await fb.FirebaseStorage.instance.refFromURL("gs://shagf-console.appspot.com").child(imgName).getDownloadURL();
 
-    print("ref");
+    if (imgName.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("no img found"),
+        ),
+      );
+    }
+
+    return Uri.parse(url);
   }
 
   void deleteProduct(Item selectedItem, context) async {
@@ -120,6 +138,8 @@ class ProductsProvider extends ChangeNotifier {
         style: TextStyle(color: Colors.white),
       ),
     ));
+
+    getItemsFromDB();
 
     notifyListeners();
   }
@@ -144,8 +164,7 @@ class ProductsProvider extends ChangeNotifier {
       Uint8List fileBytes = results.files.first.bytes!;
 
       String filename = results.files.first.name.toString();
-      Uint8List rawData = fileBytes.buffer
-          .asUint8List(fileBytes.offsetInBytes, fileBytes.lengthInBytes);
+      Uint8List rawData = fileBytes.buffer.asUint8List(fileBytes.offsetInBytes, fileBytes.lengthInBytes);
 
       rawImage = rawData;
       imageName = filename;

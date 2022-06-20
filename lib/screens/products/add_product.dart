@@ -21,17 +21,16 @@ class AddProduct extends StatefulWidget {
 class _AddProductState extends State<AddProduct> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  TextEditingController? nameC = TextEditingController();
+  TextEditingController? priceC = TextEditingController();
+  TextEditingController? categoryC = TextEditingController();
+  TextEditingController? minCountC = TextEditingController();
+  TextEditingController? desC = TextEditingController();
+  TextEditingController? imgURLC = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final productsProvider = context.watch<ProductsProvider>();
     final data = FirebaseFirestore.instance.collection("items");
-
-    TextEditingController? nameC = TextEditingController();
-    TextEditingController? priceC = TextEditingController();
-    TextEditingController? categoryC = TextEditingController();
-    TextEditingController? minCountC = TextEditingController();
-    TextEditingController? desC = TextEditingController();
-    TextEditingController? imgURLC = TextEditingController();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -66,8 +65,7 @@ class _AddProductState extends State<AddProduct> {
         children: [
           const Text(
             "Add New Product",
-            style: TextStyle(
-                color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
           ),
           Padding(
             padding: const EdgeInsets.all(14.0),
@@ -76,10 +74,7 @@ class _AddProductState extends State<AddProduct> {
               controller: nameC,
               decoration: const InputDecoration(
                 labelText: "Name",
-                labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
           ),
@@ -90,10 +85,7 @@ class _AddProductState extends State<AddProduct> {
               controller: priceC,
               decoration: const InputDecoration(
                 labelText: "Price",
-                labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
           ),
@@ -104,10 +96,7 @@ class _AddProductState extends State<AddProduct> {
               controller: categoryC,
               decoration: const InputDecoration(
                 labelText: "category",
-                labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
           ),
@@ -118,10 +107,7 @@ class _AddProductState extends State<AddProduct> {
               controller: desC,
               decoration: const InputDecoration(
                 labelText: "description",
-                labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
           ),
@@ -137,10 +123,7 @@ class _AddProductState extends State<AddProduct> {
                     },
                     icon: const Icon(Icons.file_upload)),
                 labelText: "img URL",
-                labelStyle: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
           ),
@@ -160,8 +143,7 @@ class _AddProductState extends State<AddProduct> {
                 bgColor: Colors.green,
                 txtColor: Colors.white,
                 onPress: () async {
-                  productsProvider.addProduct(nameC.text, priceC.text,
-                      desC.text, categoryC.text, context);
+                  productsProvider.addProduct(nameC!.text, priceC!.text, desC!.text, categoryC!.text, context);
                 },
               ),
             ],
@@ -169,5 +151,10 @@ class _AddProductState extends State<AddProduct> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
