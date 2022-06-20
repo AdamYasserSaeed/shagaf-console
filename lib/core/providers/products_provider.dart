@@ -89,14 +89,6 @@ class ProductsProvider extends ChangeNotifier {
       data.doc(item.id).update({"id": doc.docs.length});
     }
 
-    while (doc.docs.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-          "wait until finish , auto navigate",
-        ),
-      ));
-    }
-
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       backgroundColor: Colors.green,
       content: Text(

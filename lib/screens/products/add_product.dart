@@ -144,6 +144,7 @@ class _AddProductState extends State<AddProduct> {
                 txtColor: Colors.white,
                 onPress: () async {
                   productsProvider.addProduct(nameC!.text, priceC!.text, desC!.text, categoryC!.text, context);
+                  Navigator.pop(context);
                 },
               ),
             ],
