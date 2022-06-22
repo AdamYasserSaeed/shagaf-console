@@ -41,26 +41,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         elevation: 0,
         backgroundColor: Colors.white,
         centerTitle: true,
-        actions: const [
-          CircleAvatar(
-              backgroundColor: Colors.black,
-              backgroundImage: NetworkImage(
-                "https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425__340.png",
-              )),
-          SizedBox(width: 20),
-        ],
         title: const Text(
           "Shagf admin panel",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _scaffoldKey.currentState?.openDrawer();
-          });
-        },
-        child: const Icon(Icons.menu),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

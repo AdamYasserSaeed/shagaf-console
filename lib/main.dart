@@ -59,6 +59,6 @@ class HomeBody extends StatefulWidget {
 class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
-    return const LoginScreen();
+    return const AdminHomeScreen();
   }
 }

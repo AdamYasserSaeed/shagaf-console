@@ -132,7 +132,7 @@ class _EditProductState extends State<EditProduct> {
                 labelText: "img URL",
                 icon: IconButton(
                     onPressed: () {
-                      productsProvider.uploadeImage(context);
+                      productsProvider.uploadeImageEdit(context);
                     },
                     icon: const Icon(Icons.file_upload)),
                 labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
@@ -148,7 +148,6 @@ class _EditProductState extends State<EditProduct> {
                 txtColor: Colors.white,
                 onPress: () {
                   productsProvider.deleteProduct(product, context);
-                  Navigator.pop(context);
                 },
               ),
               EditButton(
@@ -165,7 +164,6 @@ class _EditProductState extends State<EditProduct> {
                 txtColor: Colors.white,
                 onPress: () {
                   productsProvider.editProduct(product, context);
-                  Navigator.pop(context);
                 },
               ),
             ],

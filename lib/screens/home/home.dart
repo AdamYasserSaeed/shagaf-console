@@ -53,14 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _scaffoldKey.currentState?.openDrawer();
-          });
-        },
-        child: const Icon(Icons.menu),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView(
@@ -70,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Card(
                 elevation: 6,
-                shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const OrdersScreen()));

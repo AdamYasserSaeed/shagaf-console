@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -14,7 +15,6 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -27,11 +27,12 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>shagf_console</title>
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
@@ -105,21 +106,22 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBEfXjqap2M47gsTdYcJMEGvt1iwEVH0kY",
-    authDomain: "shagf-console.firebaseapp.com",
-    projectId: "shagf-console",
-    storageBucket: "shagf-console.appspot.com",
-    messagingSenderId: "104517493217",
-    appId: "1:104517493217:web:10a42c02e1c8f9ae8172a0",
-    measurementId: "G-1WNJ54TR4B"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBEfXjqap2M47gsTdYcJMEGvt1iwEVH0kY",
+      authDomain: "shagf-console.firebaseapp.com",
+      projectId: "shagf-console",
+      storageBucket: "shagf-console.appspot.com",
+      messagingSenderId: "104517493217",
+      appId: "1:104517493217:web:10a42c02e1c8f9ae8172a0",
+      measurementId: "G-1WNJ54TR4B"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
 </body>
+
 </html>

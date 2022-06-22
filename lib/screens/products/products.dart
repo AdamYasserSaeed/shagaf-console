@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shagf_console/core/providers/products_provider.dart';
 import 'package:shagf_console/screens/products/add_product.dart';
 import 'package:shagf_console/screens/products/edit_product.dart';
+import 'package:simple_speed_dial/simple_speed_dial.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({Key? key}) : super(key: key);
@@ -58,19 +59,59 @@ class _ProductsScreenState extends State<ProductsScreen> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddProduct()));
-          });
-        },
+      floatingActionButton: SpeedDial(
         child: const Icon(Icons.add),
+        closedForegroundColor: Colors.white,
+        openForegroundColor: Colors.black,
+        closedBackgroundColor: Colors.black,
+        openBackgroundColor: Colors.white,
+        labelsBackgroundColor: Colors.white,
+        speedDialChildren: <SpeedDialChild>[
+          SpeedDialChild(
+            child: const Icon(Icons.fastfood),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.red,
+            label: 'Add Item',
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddProduct(),
+                  ));
+            },
+            closeSpeedDialOnPressed: false,
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.category),
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.yellow,
+            label: 'add category',
+            onPressed: () {
+              productsProvider.addCategoryPOPUP(context);
+            },
+          ),
+          //  Your other SpeedDialChildren go here.
+        ],
       ),
       body: Column(
         children: [
           const Text(
             "Products",
             style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+          Center(
+            child: SizedBox(
+              width: 250,
+              child: Card(
+                child: ListTile(
+                  title: const Center(child: Text("View Categories")),
+                  onTap: () {
+                    productsProvider.showCategories(context);
+                  },
+                ),
+              ),
+            ),
           ),
           Expanded(
             child: Center(
